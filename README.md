@@ -9,14 +9,14 @@ Ensure you have Python >=3.10 <3.14 installed on your system. This project uses 
 First, if you haven't already, install uv:
 
 ```bash
-pip install uv
+$ pip install uv
 ```
 
 Next, navigate to your project directory and install the dependencies:
 
 (Optional) Lock the dependencies and install them by using the CLI command:
 ```bash
-crewai install
+$ crewai install
 ```
 ### Customizing
 
@@ -26,6 +26,33 @@ crewai install
 - Modify `src/engineering_team/config/tasks.yaml` to define your tasks
 - Modify `src/engineering_team/crew.py` to add your own logic, tools and specific args
 - Modify `src/engineering_team/main.py` to add custom inputs for your agents and tasks
+
+## After cloning
+
+I cloned the repo from github, but it would not run. I had to create a venv first
+
+```bash
+$ cd {project_dir}
+$ uv venv
+$ source .venv/Scripts/activate
+$ uv sync
+```
+
+Then I closed cursor and started it up again later and I got another error. I had to activate again
+
+```bash
+$ .venv/Scripts/activate
+```
+
+## CrewAI Tracing
+
+If you want to trace crew projects, you first need to login to crewai:
+
+```bash
+$ crewai login
+```
+
+You will get a code verification
 
 ## Running the Project
 
