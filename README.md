@@ -79,3 +79,15 @@ For support, questions, or feedback regarding the EngineeringTeam Crew or crewAI
 - [Chat with our docs](https://chatg.pt/DWjSBZn)
 
 Let's create wonders together with the power and simplicity of crewAI.
+
+Once the app is created in the output directory, you will need to first install gradio
+
+```bash
+$ uv add gradio
+```
+
+Now you can run it
+
+```bash
+$ uv run app.py
+```
