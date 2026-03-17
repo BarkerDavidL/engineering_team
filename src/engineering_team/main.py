@@ -36,8 +36,8 @@ def run():
     """
     inputs = {
         'requirements': requirements,
-        'module_name': module_name,
-        'class_name': class_name
+#        'module_name': module_name,
+#        'class_name': class_name
     }
 
     # Create and run the crew
