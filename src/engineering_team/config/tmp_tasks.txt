@@ -1,0 +1,96 @@
+architecture_task:
+  description: >
+    Take the high level requirements described here and prepare a high level software architecture
+    that divides the product into self contained modules, each with a module name to be implemented
+    in a single class. The class name should be the same as the module name. Each class will have
+    a public interface that can be imported and called from other classes.
+    Here are the requirements: {requirements}
+  expected_output: >
+    A high-level design document in markdown describing how the requirements will be implemented
+    using the modules defined by the architect. The design will start with a summary that explains
+    how the modules will work together to solve the requirements. Then the document will contain one
+    section for each module. The section for each module will start with a list of the interface
+    methods the module will make available to other modules. The section will describe the module
+    design and end with an example of the modules usage in a code block.
+  agent: software_architect
+  output_file: architecture.md
+
+design_task:
+  description: >
+    Take the high level requirements described here and prepare an architecture design for the engineering team;
+    the architecture should have a high level section describing how the modules work together to solve the
+    requirements. The architecture should create a list of modules needed to complete the project. The architecture
+    should include a section for each module in the high level design. Each module should have a name that gets
+    handed to the engineering lead for delegation. Each module should have a name and be implemented by one class
+    with the same name as the module name.
+    Here are the requirements: {requirements}
+    IMPORTANT: Only output the hgih level architecture in markdown format, starting with the high level design of
+    how the modules work together, then include one section for each module that includes the module name,
+    the class name (that is the same as the module name), the module interface methods and an example of the
+    module being used in code.
+  expected_output: >
+    A high level architecture design document for the engineeringn lead that includes a high level design and
+    a section with each module. It should specify the list of module names that can be used by the engineering 
+    lead to delegate modules to engineering team members for implementation.
+  agent: software_architect
+  output_file: output/architecture_design.md
+
+delegate_task:
+  description: >
+    Take the high level requirements described here and prepare a detailed design for the engineer;
+    everything should be in 1 python module, but outline the classes and methods in the module.
+    Here are the requirements: {requirements}
+    Here is the high level architecture document that includes the modules to be assigned: output/architecture_design.md
+    IMPORTANT: Only output the designs in markdown format. Create one markdown document for each module and
+    one markdown document for the application that will be run by the user. Each module markdown document should
+    include the module name and lay out in detail the classes and functions in the module, describing the functionality.
+    The application markdown should describe how the modules are to be used to fulfill the requirements.
+  expected_output: >
+    One markdown design document for each module and a markdown design document for the application
+    to be named after the module name with _design appended to the end of the module name.
+    Each module document should include the module name and a detailed design for the engineer,
+    identifying the classes and functions in the module. The high level application markdown document
+    should describe how the other modules will be used to fulfill the requirements. The name of the
+    high level architecture document should be app_design.md
+  agent: engineering_lead
+  output_file: output/{module_name}_design.md, output/app_design.md
+
+code_task:
+  description: >
+    Write a python module that implements the design described by the engineering lead, in order to achieve the requirements.
+    Here are the requirements: {requirements}
+  expected_output: >
+    A python module that implements the design and achieves the requirements.
+    IMPORTANT: Output ONLY the raw Python code without any markdown formatting, code block delimiters, or backticks.
+    The output should be valid Python code that can be directly saved to a file and executed.
+  agent: backend_engineer
+  context:
+    - design_task
+  output_file: output/{module_name}
+
+frontend_task:
+  description: >
+    Write a gradio UI in a module app.py that demonstrates the given backend class in {module_name}.
+    Assume there is only 1 user, and keep the UI very simple indeed - just a prototype or demo.
+    Here are the requirements: {requirements}
+  expected_output: >
+    A gradio UI in module app.py that demonstrates the given backend class.
+    The file should be ready so that it can be run as-is, in the same directory as the backend module, and it should import the backend class from {module_name}.
+    IMPORTANT: Output ONLY the raw Python code without any markdown formatting, code block delimiters, or backticks.
+    The output should be valid Python code that can be directly saved to a file and executed.
+  agent: frontend_engineer
+  context:
+    - code_task
+  output_file: output/app.py
+
+test_task:
+  description: >
+    Write unit tests for the given backend module {module_name} and create a test_{module_name} in the same directory as the backend module.
+  expected_output: >
+    A test_{module_name} module that tests the given backend module.
+    IMPORTANT: Output ONLY the raw Python code without any markdown formatting, code block delimiters, or backticks.
+    The output should be valid Python code that can be directly saved to a file and executed.
+  agent: test_engineer
+  context:
+    - code_task
+  output_file: output/test_{module_name}
