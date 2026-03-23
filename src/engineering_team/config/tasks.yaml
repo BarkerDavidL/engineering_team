@@ -17,3 +17,68 @@ design_task:
     lead to delegate modules to engineering team members for implementation.
   agent: software_architect
   output_file: output/architecture_design.md
+
+delegate_task:
+  description: >
+    Take the high level architecture document from the software architect and divide the work into
+    discrete assignments to be handed to a team of software engineers. Create a list that includes an
+    item for each module in the high level architecture document, one item for the frontend user interface
+    application that will be run by the user and that is supported by all of the modules. Write this
+    list to the output directory as a markdown file with one line for each module and the name of a
+    backend software engineer who will develop that task. And add one line for the frontend user interface
+    application module with the name of a frontend software engineer who will develop that task.
+    Here are the requirements: {requirements}
+    Here is the high level architecture document that includes the modules to be assigned: output/architecture_design.md
+    IMPORTANT: Only output the assignments in markdown format. Create one markdown document.
+  expected_output: >
+    One markdown document that is a list of the modules to be developed along with the backend engineer
+    assigned to develop them. The list will also include a line for the application that will be calling
+    the modules to support the requirements along with the name of the frontend software engineer that
+    will develop the applicaion.
+  agent: engineering_lead
+  context:
+    - design_task
+  output_file: output/assignments.md
+
+code_task:
+  description: >
+    Write a python module that implements the module assigned to you by the engineering lead and described
+    in the high level architecture design document, in order to achieve the requirements. Also write a test
+    module that runs unit tests on the module you just wrote. The test module should have tests for each of
+    the class method interfaces in the module.
+    Here are the requirements: {requirements}
+    Here is the high level architecture design document: output/architecture_design.md
+  expected_output: >
+    A python module that implements the design and achieves the requirements and a test module that tests the
+    method interfaces described in the architecture design document.
+    IMPORTANT: Output ONLY the raw Python code without any markdown formatting, code block delimiters, or backticks.
+    The output should be valid Python code that can be directly saved to a file and executed.
+    One python module file should be created to support the module features, be named using the module
+    name and placed in the output directory.
+    One python test module file should be created to test the module method interfaces. It should have the
+    same name as the python file for the module but prepended with the string 'test_'. This test file should be
+    placed in a test subdirectory in the output directory.
+  agent: backend_engineer
+  context:
+    - design_task
+    - delegate_task
+#  output_file: output/{module_name}
+frontend_task:
+  description: >
+    Write a gradio UI in a module app.py that demonstrates the given backend classes in the architecture
+    design document created by the software architect.
+    Assume there is only 1 user, and keep the UI very simple indeed - just a prototype or demo.
+    Here are the requirements: {requirements}
+    Here is the high level archicture design: output/architecture_design.md
+  expected_output: >
+    A gradio UI in module app.py that supports the application described in the requirements and the high level
+    software architecture. The file should be ready so that it can be run as-is, in the same directory as the
+    backend application and modules, and it should import the backend classes from the modules defined in the
+    high level sofware architecture.
+    IMPORTANT: Output ONLY the raw Python code without any markdown formatting, code block delimiters, or backticks.
+    The output should be valid Python code that can be directly saved to a file and executed.
+  agent: frontend_engineer
+  context:
+    - design_task
+    - code_task
+  output_file: output/app.py
