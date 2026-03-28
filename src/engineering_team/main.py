@@ -42,7 +42,16 @@ def run():
     }
 
     # Create and run the crew
-    result = EngineeringTeam().crew().kickoff(inputs=inputs)
+    engTeam = EngineeringTeam()
+    result = engTeam.crew().kickoff(inputs=inputs)
+
+    print("Got results")
+
+    if engTeam.new_tasks:
+        print("processing new tasks")
+        engTeam.tasks = engTeam.new_tasks
+        engTeam.new_tasks = []
+        engTeam.crew().kickoff(inputs=inputs)
 
 
 if __name__ == "__main__":

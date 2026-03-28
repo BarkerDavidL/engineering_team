@@ -58,6 +58,10 @@ code_task:
     One python test module file should be created to test the module method interfaces. It should have the
     same name as the python file for the module but prepended with the string 'test_'. This test file should be
     placed in a test subdirectory in the output directory.
+    Write the resulting module file to the output directory with the name of the module used as the name
+    of the python file followed by the .py python extension.
+    Write the resulting test file to the output/src directory with test_ prepended to the name of the
+    module as the name of the test file followed by the .py python extension.
   agent: backend_engineer
   context:
     - design_task
